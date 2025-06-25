@@ -17,6 +17,6 @@ fun MainScreen(navController: NavHostController) {
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    PasswordGeneratorScreen()
+    PasswordGeneratorScreen(navController = navController)
   }
 }

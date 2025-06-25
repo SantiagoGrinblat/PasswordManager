@@ -35,10 +35,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.santidev.passwordmanager.R
+import com.santidev.passwordmanager.navigation.SavePassword
+import com.santidev.passwordmanager.ui.screens.SavePassword
 
 @Composable
-fun PasswordGeneratorScreen() {
+fun PasswordGeneratorScreen(navController: NavHostController) {
   
   var length by remember { mutableStateOf(12) }
   var useNumbers by remember { mutableStateOf(true) }
@@ -82,6 +85,20 @@ fun PasswordGeneratorScreen() {
       
       // 👉 Botón copiar al portapapeles
       CopyButton(textToCopy = password)
+      
+      Spacer(modifier = Modifier.height(16.dp))
+      
+      Button(
+        onClick = { regenerate() },
+        shape = RoundedCornerShape(50),
+        colors = ButtonDefaults.elevatedButtonColors(
+          containerColor = Color(0xFF2C2C2E),
+          contentColor = Color.White
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
+      ) {
+        Text("Generar nueva clave", fontWeight = FontWeight.Bold)
+      }
       
       Spacer(modifier = Modifier.height(24.dp))
       
@@ -217,9 +234,9 @@ fun PasswordGeneratorScreen() {
       }
       
       Spacer(modifier = Modifier.height(24.dp))
-      
+        
       Button(
-        onClick = { regenerate() },
+        onClick = { navController.navigate(SavePassword) },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.elevatedButtonColors(
           containerColor = Color(0xFF2C2C2E),
@@ -227,7 +244,7 @@ fun PasswordGeneratorScreen() {
         ),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
       ) {
-        Text("Generar nueva clave", fontWeight = FontWeight.Bold)
+        Text("Guardar clave", fontWeight = FontWeight.Bold)
       }
     }
   }
