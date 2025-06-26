@@ -244,7 +244,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
         ),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
       ) {
-        Text("Guardar clave", fontWeight = FontWeight.Bold)
+        Text("Guardar contenido", fontWeight = FontWeight.Bold)
       }
     }
   }
