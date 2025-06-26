@@ -22,7 +22,7 @@ fun NavigationWrapper() {
       MainScreen(navController = navController)
     }
     composable<SavePassword> {
-      SavePassword(navController = navController)
+      SavePassword()
     }
   }
   
