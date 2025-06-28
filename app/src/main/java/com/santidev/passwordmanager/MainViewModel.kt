@@ -31,9 +31,9 @@ class MainViewModel: ViewModel(), KoinComponent {
     }
   }
   
-  fun createOne(/*title: String,*/ password: String) {
+  fun createOne(title: String, password: String) {
     launchIO {
-      dao.createPassword(PasswordEntity(/*title = title, */password = password))
+      dao.createPassword(PasswordEntity(title = title, password = password))
     }
   }
   

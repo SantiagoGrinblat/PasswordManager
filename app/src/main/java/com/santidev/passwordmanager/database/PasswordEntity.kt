@@ -10,5 +10,8 @@ data class PasswordEntity(
   val id : Int? = null,
   
   @ColumnInfo(name = "password")
-  val password : String
+  val password : String,
+  
+  @ColumnInfo(name = "title")
+  val title : String,
 )
