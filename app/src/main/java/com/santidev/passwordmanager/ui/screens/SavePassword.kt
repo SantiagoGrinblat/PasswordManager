@@ -64,9 +64,7 @@ import com.santidev.passwordmanager.utils.CopyButton
 
 @Composable
 fun SavePassword() {
-  
   SecurityScreen()
-  
 }
 
 @Composable
@@ -81,7 +79,7 @@ fun SecurityScreen() {
       authorized.value = true
     }
   }
-  
+
   LaunchedEffect(Unit) {
     authorize()
   }
@@ -208,7 +206,7 @@ fun SecurityScreen() {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(color = Color.Transparent)
-                .border(1.dp, Color(0xFF2C2C2E), RoundedCornerShape(8.dp))
+                .border(1.dp, Color(0xFFA39F9F), RoundedCornerShape(8.dp))
                 .padding(16.dp)
             ) {
               Column {
@@ -218,7 +216,7 @@ fun SecurityScreen() {
                     .fillMaxWidth()
                     .height(15.dp),
                   thickness = 1.dp,
-                  color = Color(0xFF2C2C2E)
+                  color = Color(0xFFA39F9F)
                 )
                 
                 Text(text = it.password, fontWeight = FontWeight.Light, color = Color.White)

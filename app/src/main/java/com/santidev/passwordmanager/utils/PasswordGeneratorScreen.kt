@@ -75,11 +75,12 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      Text("Tu contraseña generada:", fontSize = 20.sp)
+      Text("TU CONTRASEÑA GENERADA:", fontSize = 20.sp, color = Color.White)
       Text(
         text = password,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
+        color = Color.White,
         modifier = Modifier.padding(vertical = 16.dp)
       )
       
@@ -131,7 +132,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
               else -> R.drawable.skull
             }
           ),
-          contentDescription = "Nivel de s eguridad",
+          contentDescription = "Nivel de seguridad",
           tint = when {
             length < 6 -> Color.Red
             length < 12 -> Color(0xFFFFA500)
@@ -170,7 +171,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
         
         Spacer(modifier = Modifier.width(12.dp))
         
-        Text("Longitud: $length", fontSize = 18.sp)
+        Text("LONGITUD: $length", fontSize = 18.sp, color = Color.White)
         
         Spacer(modifier = Modifier.width(12.dp))
         
@@ -212,7 +213,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
             checkmarkColor = Color(0xFF15202B)
           ),
         )
-        Text("Incluir números", fontSize = 16.sp, color = Color.White)
+        Text("INCLUIR NÚMEROS", fontSize = 16.sp, color = Color.White)
       }
       
       Spacer(modifier = Modifier.height(8.dp))
@@ -230,7 +231,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
             checkmarkColor = Color(0xFF15202B)
           ),
         )
-        Text("Incluir símbolos", fontSize = 16.sp, color = Color.White)
+        Text("INCLUIR SíMBOLOS", fontSize = 16.sp, color = Color.White)
       }
       
       Spacer(modifier = Modifier.height(24.dp))
