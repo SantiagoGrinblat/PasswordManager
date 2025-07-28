@@ -1,5 +1,6 @@
 package com.santidev.passwordmanager.utils
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -75,15 +76,18 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
-      Text("TU CONTRASEÑA GENERADA:", fontSize = 20.sp, color = Color.White)
+      Text("TU CONTRASEÑA GENERADA:", fontSize = 24.sp, color = Color.White, fontWeight = FontWeight.Bold)
+      Spacer(modifier = Modifier.height(16.dp))
       Text(
         text = password,
-        fontSize = 24.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color.White,
-        modifier = Modifier.padding(vertical = 16.dp)
+        modifier = Modifier
+          .border(1.dp, Color(0xFFA39F9F), RoundedCornerShape(8.dp))
+          .padding(8.dp)
       )
-      
+      Spacer(modifier = Modifier.height(16.dp))
       // 👉 Botón copiar al portapapeles
       CopyButton(textToCopy = password)
       
@@ -93,12 +97,12 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
         onClick = { regenerate() },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.elevatedButtonColors(
-          containerColor = Color(0xFF2C2C2E),
-          contentColor = Color.White
+          containerColor = Color(0xFFC6A766),
+          contentColor = Color.Black
         ),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
       ) {
-        Text("Generar nueva clave", fontWeight = FontWeight.Bold)
+        Text("Generar nueva clave", fontSize = 16.sp, fontWeight = FontWeight.Bold)
       }
       
       Spacer(modifier = Modifier.height(24.dp))
@@ -169,11 +173,19 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
           )
         }
         
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(18.dp))
         
-        Text("LONGITUD: $length", fontSize = 18.sp, color = Color.White)
+        Row {
+          Text("Caracteres:", fontSize = 18.sp, color = Color.White)
+          Spacer(modifier = Modifier.width(4.dp))
+          Text("$length", fontSize = 18.sp, color = when {
+            length < 6 -> Color.Red
+            length < 12 -> Color(0xFFFFA500)
+            else -> Color.Green
+          })
+        }
         
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(18.dp))
         
         Button(
           onClick = {
@@ -213,7 +225,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
             checkmarkColor = Color(0xFF15202B)
           ),
         )
-        Text("INCLUIR NÚMEROS", fontSize = 16.sp, color = Color.White)
+        Text("Incluir Números", fontSize = 18.sp, color = Color.White)
       }
       
       Spacer(modifier = Modifier.height(8.dp))
@@ -231,7 +243,7 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
             checkmarkColor = Color(0xFF15202B)
           ),
         )
-        Text("INCLUIR SíMBOLOS", fontSize = 16.sp, color = Color.White)
+        Text("Incluir Símbolos", fontSize = 18.sp, color = Color.White)
       }
       
       Spacer(modifier = Modifier.height(24.dp))
@@ -240,12 +252,12 @@ fun PasswordGeneratorScreen(navController: NavHostController) {
         onClick = { navController.navigate(SavePassword) },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.elevatedButtonColors(
-          containerColor = Color(0xFF2C2C2E),
-          contentColor = Color.White
+          containerColor = Color(0xFFC6A766),
+          contentColor = Color.Black
         ),
         elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
       ) {
-        Text("Guardar contenido", fontWeight = FontWeight.Bold)
+        Text("Guardar contenido", fontSize = 16.sp, fontWeight = FontWeight.Bold)
       }
     }
   }
