@@ -29,6 +29,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,7 +41,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
@@ -64,7 +64,9 @@ import com.santidev.passwordmanager.utils.CopyButton
 
 @Composable
 fun SavePassword() {
+  
   SecurityScreen()
+  
 }
 
 @Composable
@@ -122,19 +124,24 @@ fun SecurityScreen() {
             }
             val title = remember { mutableStateOf("") }
             OutlinedTextField(
-              value = title.value, onValueChange = {
-                title.value = it
-              }, modifier = Modifier.fillMaxWidth(), label = {
-                Text(text = "Titulo")
-              },
+              value = title.value,
+              onValueChange = { title.value = it },
+              modifier = Modifier.fillMaxWidth(),
+              label = { Text(text = "Titulo", color = Color.White) }, colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+              )
             )
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
-              value = secretPassword.value, onValueChange = {
-                secretPassword.value = it
-              }, modifier = Modifier.fillMaxWidth(), label = {
-                Text(text = "Contraseña")
-              },
+              value = secretPassword.value,
+              onValueChange = { secretPassword.value = it },
+              modifier = Modifier.fillMaxWidth(),
+              label = { Text(text = "Contraseña", color = Color.White) },
+              colors = OutlinedTextFieldDefaults.colors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+              ),
               leadingIcon = {
                 Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock Icon")
               }
