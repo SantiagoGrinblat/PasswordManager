@@ -13,8 +13,9 @@ Una aplicación de gestión de contraseñas simple, segura y moderna hecha con J
 
 <!-- Puedes subir las imágenes a tu repo o usar enlaces externos -->
 <p float="left">
-  <img src="screenshots/screen1.png" width="200" />
-  <img src="screenshots/screen2.png" width="200" />
+  <img src="![Image](https://github.com/user-attachments/assets/69396947-1302-40c0-8151-69b13853d08a)" width="200" />
+  <img src="![Image](https://github.com/user-attachments/assets/7e183084-c00e-40b0-8e84-6a37ecfcc593)" width="200" />
+  <img src="![Image](https://github.com/user-attachments/assets/d243ce8f-4fc5-494d-8118-7ba56f46d68f)" width="200" />
 </p>
 
 ## 🧰 Tecnologías usadas
