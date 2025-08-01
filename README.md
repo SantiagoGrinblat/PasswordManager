@@ -11,7 +11,6 @@ Una aplicación de gestión de contraseñas simple, segura y moderna hecha con J
 
 ## 📸 Capturas de Pantalla
 
-<!-- Puedes subir las imágenes a tu repo o usar enlaces externos -->
 <p float="left">
   <img src="![captura_1](https://github.com/user-attachments/assets/4bd28869-2e89-445a-b00b-e1f5f5f4f48c)" width="200" />
   <img src="![Image](https://github.com/user-attachments/assets/7e183084-c00e-40b0-8e84-6a37ecfcc593)" width="200" />
@@ -31,4 +30,4 @@ Una aplicación de gestión de contraseñas simple, segura y moderna hecha con J
 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
+git clone https://github.com/SantiagoGrinblat/PasswordManager.git
