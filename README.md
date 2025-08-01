@@ -13,8 +13,8 @@ Una aplicación de gestión de contraseñas simple, segura y moderna hecha con J
 
 <p float="left">
   <img src="https://github.com/SantiagoGrinblat/PasswordManager/blob/982c8666bd4e16adc4c51ab57e6c6174b98456b9/captura_1.jpeg" width="200" />
-  <img src="![Image](https://github.com/user-attachments/assets/7e183084-c00e-40b0-8e84-6a37ecfcc593)" width="200" />
-  <img src="![Image](https://github.com/user-attachments/assets/d243ce8f-4fc5-494d-8118-7ba56f46d68f)" width="200" />
+  <img src="https://github.com/SantiagoGrinblat/PasswordManager/blob/9c2d44b4acae5a71dfcdbb3ca303828097678eb9/captura_2.jpeg" width="200" />
+  <img src="https://github.com/SantiagoGrinblat/PasswordManager/blob/9c2d44b4acae5a71dfcdbb3ca303828097678eb9/captura_3.jpeg" width="200" />
 </p>
 
 ## 🧰 Tecnologías usadas
