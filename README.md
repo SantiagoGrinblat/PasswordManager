@@ -38,4 +38,4 @@ Password Manager es una solución simple pero robusta para almacenar y gestionar
 1. Clona el repositorio
 
 ```bash
-https://github.com/SantiagoGrinblat/PasswordManager.git
+git clone https://github.com/SantiagoGrinblat/PasswordManager.git
