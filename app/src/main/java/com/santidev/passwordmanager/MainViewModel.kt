@@ -2,6 +2,7 @@ package com.santidev.passwordmanager
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.santidev.passwordmanager.database.PasswordDao
 import com.santidev.passwordmanager.database.PasswordEntity
 import com.santidev.passwordmanager.database.SecretDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +20,9 @@ class MainViewModel: ViewModel(), KoinComponent {
   
   private val _passwords = MutableStateFlow<List<PasswordEntity>>(emptyList())
   val passwordsViewModel = _passwords.asStateFlow()
+  
+  private val _searchQuery = MutableStateFlow("")
+  val searchQuery = _searchQuery.asStateFlow()
   
   init {
     getAll()
@@ -41,7 +45,7 @@ class MainViewModel: ViewModel(), KoinComponent {
     viewModelScope.launch(Dispatchers.IO) {
       launchIO {
         dao.getPasswords().collect { result ->
-          _passwords.update { result }
+          _passwords.value = result
         }
       }
     }
@@ -50,6 +54,21 @@ class MainViewModel: ViewModel(), KoinComponent {
   fun deleteOne(password: PasswordEntity) {
     launchIO {
       dao.deletePassword(password)
+    }
+  }
+  
+  fun search(query: String) {
+    _searchQuery.value = query
+    viewModelScope.launch(Dispatchers.IO) {
+      if (query.isEmpty()) {
+        dao.getPasswords().collect { result ->
+          _passwords.value = result
+        }
+      } else {
+        dao.searchPasswords(query).collect { result ->
+          _passwords.value = result
+        }
+      }
     }
   }
   

@@ -21,12 +21,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -60,20 +63,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.santidev.passwordmanager.MainViewModel
 import com.santidev.passwordmanager.R
 import com.santidev.passwordmanager.biometric.BiometricHelper
+import com.santidev.passwordmanager.ui.components.PasswordDialog
+import com.santidev.passwordmanager.ui.components.PasswordListItem
+import com.santidev.passwordmanager.ui.components.PasswordSearchBar
 import com.santidev.passwordmanager.utils.CopyButton
 
 @Composable
 fun SavePassword() {
-  
   SecurityScreen()
-  
 }
 
 @Composable
 fun SecurityScreen() {
-  val authorized = remember {
-    mutableStateOf(false)
-  }
+  val authorized = remember { mutableStateOf(false) }
   val context = LocalContext.current
   
   val authorize: () -> Unit = {
@@ -81,7 +83,7 @@ fun SecurityScreen() {
       authorized.value = true
     }
   }
-
+  
   LaunchedEffect(Unit) {
     authorize()
   }
@@ -92,12 +94,11 @@ fun SecurityScreen() {
   )
   
   val viewModel: MainViewModel = viewModel()
-  
   val passwords by viewModel.passwordsViewModel.collectAsState()
   
-  val dialogOpen = remember {
-    mutableStateOf(false)
-  }
+  val dialogOpen = remember { mutableStateOf(false) }
+  val searchQuery = remember { mutableStateOf("") }
+  val isSearching = remember { mutableStateOf(false) }
   
   OnLifecycleEvent { owner, event ->
     if (event == Lifecycle.Event.ON_PAUSE) {
@@ -110,151 +111,91 @@ fun SecurityScreen() {
     color = MaterialTheme.colorScheme.background
   ) {
     if (dialogOpen.value) {
-      Dialog(onDismissRequest = { dialogOpen.value = false }) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-          Column(
-            modifier = Modifier
-              .fillMaxWidth()
-              .clip(RoundedCornerShape(12.dp))
-              .background(MaterialTheme.colorScheme.background)
-              .padding(16.dp)
-          ) {
-            val secretPassword = remember {
-              mutableStateOf("")
-            }
-            val title = remember { mutableStateOf("") }
-            OutlinedTextField(
-              value = title.value,
-              onValueChange = { title.value = it },
-              modifier = Modifier.fillMaxWidth(),
-              label = { Text(text = "Titulo", color = Color.White) }, colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
-              )
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            OutlinedTextField(
-              value = secretPassword.value,
-              onValueChange = { secretPassword.value = it },
-              modifier = Modifier.fillMaxWidth(),
-              label = { Text(text = "Contraseña", color = Color.White) },
-              colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
-              ),
-              leadingIcon = {
-                Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock Icon")
-              }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-              onClick = {
-                if (secretPassword.value.isNotEmpty() == true && title.value.isNotEmpty() == true) {
-                  viewModel.createOne(title.value, secretPassword.value)
-                  dialogOpen.value = false
-                }
-              }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFC6A766)
-              ), shape = RoundedCornerShape(12.dp)
-            ) {
-              Text(text = "Guardar", color = Color.White, fontWeight = FontWeight.Bold)
-            }
-          }
+      PasswordDialog(
+        onDismiss = { dialogOpen.value = false },
+        onSave = { title, password ->
+          viewModel.createOne(title, password)
         }
-      }
+      )
     }
     
-    Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = {
-      Column {
-        AnimatedVisibility(visible = !authorized.value) {
+    Scaffold(
+      modifier = Modifier.fillMaxSize(),
+      floatingActionButton = {
+        Column {
+          AnimatedVisibility(visible = !authorized.value) {
+            FloatingActionButton(
+              onClick = authorize,
+              containerColor = Color(0xFFC6A766)
+            ) {
+              Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = "Icon Lock",
+                tint = Color.White
+              )
+            }
+          }
+          Spacer(modifier = Modifier.height(8.dp))
+          
           FloatingActionButton(
-            onClick = authorize,
+            onClick = { isSearching.value = !isSearching.value },
             containerColor = Color(0xFFC6A766)
           ) {
             Icon(
-              imageVector = Icons.Default.Lock,
-              contentDescription = "Icon Lock",
+              imageVector = Icons.Default.Search,
+              contentDescription = "Icon Search",
+              tint = Color.White
+            )
+          }
+          Spacer(modifier = Modifier.height(8.dp))
+          
+          FloatingActionButton(
+            onClick = { dialogOpen.value = true },
+            containerColor = Color(0xFFC6A766)
+          ) {
+            Icon(
+              imageVector = Icons.Default.Add,
+              contentDescription = "Icon Add",
               tint = Color.White
             )
           }
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        FloatingActionButton(onClick = {
-          dialogOpen.value = true
-        }, containerColor = Color(0xFFC6A766)) {
-          Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Icon Add",
-            tint = Color.White
-          )
-        }
       }
-    }) { paddings ->
+    ) { paddings ->
       Box(
         modifier = Modifier
           .fillMaxSize()
           .padding(paddings)
-          .blur(
-            blurValue,
-            edgeTreatment = BlurredEdgeTreatment.Unbounded
-          )
-      )
-      {
-        LazyColumn(
-          modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-          verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-          items(passwords, key = { it.id ?: 0 }) {
-            Box(
-              modifier = Modifier
-                .animateItem()
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = Color.Transparent)
-                .border(1.dp, Color(0xFFA39F9F), RoundedCornerShape(8.dp))
-                .padding(16.dp)
-            ) {
-              Column {
-                Text(text = it.title, fontWeight = FontWeight.Bold, color = Color.White)
-                HorizontalDivider(
-                  modifier = Modifier
-                    .fillMaxWidth()
-                    .height(15.dp),
-                  thickness = 1.dp,
-                  color = Color(0xFFA39F9F)
-                )
-                
-                Text(text = it.password, fontWeight = FontWeight.Light, color = Color.White)
-                
-                Spacer(modifier = Modifier.height(6.dp))
-                
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                  AnimatedVisibility(visible = authorized.value) {
-                    Button(
-                      onClick = {viewModel.deleteOne(it)},
-                      shape = RoundedCornerShape(50),
-                      colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = Color(0xFF2C2C2E),
-                        contentColor = Color.White
-                      ),
-                      elevation = ButtonDefaults.elevatedButtonElevation(defaultElevation = 8.dp)
-                    ) {
-                      Text(text = "BORRAR", color = Color.White)
-                      Spacer(modifier = Modifier.width(4.dp))
-                      Icon(
-                        painter = painterResource(id = R.drawable.deleteicon),
-                        contentDescription = "Button Delete" ,
-                        tint = Color(0xFFC6A766)
-                      )
-                    }
-                  }
-                  CopyButton(
-                    textToCopy = it.password
-                  )
-                }
+          .blur(blurValue, edgeTreatment = BlurredEdgeTreatment.Unbounded)
+      ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+          AnimatedVisibility(visible = isSearching.value) {
+            PasswordSearchBar(
+              searchQuery = searchQuery.value,
+              onSearchChange = {
+                searchQuery.value = it
+                viewModel.search(it)
+              },
+              onClear = {
+                searchQuery.value = ""
+                viewModel.search("")
               }
+            )
+          }
+          
+          LazyColumn(
+            modifier = Modifier
+              .fillMaxSize()
+              .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+          ) {
+            items(passwords, key = { it.id ?: 0 }) { password ->
+              PasswordListItem(
+                password = password,
+                isAuthorized = authorized.value,
+                onDelete = { viewModel.deleteOne(it) },
+                modifier = Modifier.animateItem()
+              )
             }
           }
         }
@@ -265,7 +206,6 @@ fun SecurityScreen() {
 
 @Composable
 fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
-  
   val eventHandler = rememberUpdatedState(newValue = onEvent)
   val lifecycleOwner = rememberUpdatedState(newValue = LocalLifecycleOwner.current)
   
